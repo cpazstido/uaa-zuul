@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,7 +56,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)//若无，refresh_token会有UserDetailsService is required错误
-                .tokenStore(tokenStore());
+                .tokenStore(tokenStore())
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+        ;
     }
 
     @Override
